@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://electronicshop.kesug.com/sitemap.xml
