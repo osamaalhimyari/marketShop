@@ -99,8 +99,6 @@ class AdminProductsCotroller extends Controller
     public function getAllProducts()
     {
 
-        // $products = Product::orderBy('updated_at', 'DESC')->get();
-
         $query = Product::with('category', 'product_images');
         $countProducts =  $query->count();
         $products =  $query->filtered()

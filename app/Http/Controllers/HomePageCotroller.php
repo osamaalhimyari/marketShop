@@ -72,37 +72,44 @@ $configs=Config::first();
     return view('pages.HomePage', compact('categories', 'selectedCategoryId', 'products' , 'searchTxt' ,));
 }
 
-public function getProduct( Request $request){
+public function getProduct(Request $request) {
     $productId = $request->input('Pid');
-    // sha1()
-    // $product = Product::find($productId);
-    $product = Product::whereRaw('sha1(id) = ? OR id=? ', [$productId, $productId])->first();
-    if($product){
-        // 
-        $primaryCategoryProducts = Product::where('category_id', $product->category_id)
-        ->where('published', 1)
-        ->where('quantity', '>', 0)
-        ->orderByDesc('updated_at')
-        ->orderBy('price')
-        ->orderByDesc('discount')
-        ->take(5);
 
-    // Get 5 products from other categories (1 per category)
-    $otherCategoryProducts = Product::where('category_id', '!=', $product->category_id)
-        ->where('published', 1)
-        ->where('quantity', '>', 0)
-        ->orderByDesc('updated_at')
-        ->orderBy('price')
-        ->orderByDesc('discount')
-        ->distinct('category_id')  // Ensure distinct categories
-        ->take(5);  // Limit to 5 products
-    $combinedProducts = $primaryCategoryProducts->union($otherCategoryProducts);
-    $products = $combinedProducts->get();
+    // Find the product, either by the raw sha1 or direct ID
+    $product = Product::whereRaw('sha1(id) = ? OR id = ?', [$productId, $productId])->first();
+
+    if ($product) {
+        // Eager load related data like category (if needed)
+        $primaryCategoryProducts = Product::where('category_id', $product->category_id)
+            ->where('published', 1)
+            ->where('quantity', '>', 0)
+            ->orderByDesc('updated_at')  // Prioritize the newest
+            ->orderBy('price')           // Then order by price
+            ->orderByDesc('discount')    // And discount
+            ->limit(5)                   // Limit to 5 products
+            ->get();
+
+        // Get 5 products from other categories (1 per category), optimized to avoid distinct()
+        $otherCategoryProducts = Product::where('category_id', '!=', $product->category_id)
+            ->where('published', 1)
+            ->where('quantity', '>', 0)
+            ->orderByDesc('updated_at')   // Prioritize the newest
+            ->orderBy('price')            // Then order by price
+            ->orderByDesc('discount')     // And discount
+            ->take(5)                     // Limit to 5 products
+            ->get();
+
+        // Combine the two sets of products
+        $products = $primaryCategoryProducts->merge($otherCategoryProducts);
+
+        // Increment the view count of the current product
         $product->increment('views');
-        return view('pages.ShowProductPage',compact('product','products'));
-    }else{
+
+        // Return the view with product data
+        return view('pages.ShowProductPage', compact('product', 'products'));
+    } else {
         return redirect("/");
     }
-       }
+}
 
 }
