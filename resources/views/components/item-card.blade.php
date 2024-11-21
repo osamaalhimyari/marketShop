@@ -1,4 +1,4 @@
-<a href="{{ route('product', ['Pid' => sha1($product->id)]) }}"
+<a  href="{{ route('product', ['Pid' => sha1($product->id)]) }}"
     class="group rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 dark:bg-gray-800 flex flex-col h-full">
      <div class="relative overflow-hidden bg-gray-200" style="height: 200px;">
          <!-- New Badge (only shown if the product is new) -->

@@ -1,4 +1,4 @@
-<x-layouts.app :pageTitle="'theCart'">
+<x-layouts.app :pageTitle="'cart'">
 
 
     <section class="grid grid-cols-1 md:grid-cols-3 m-5 dark:bg-gray-900 dark:text-white">
@@ -58,6 +58,7 @@
                             </td>
                     </tr>
                 `;
+
 
                 cartItemsContainer.innerHTML += row;
             });

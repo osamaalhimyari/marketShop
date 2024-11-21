@@ -8,7 +8,7 @@
          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
              <div class="md:col-span-2">
-                 <form id="updateForm" name="updateForm"    action="{{ route('admin-update-Products', 'Pid=' . $product->id) }}" method="POST" 
+                 <form id="updateForm" name="updateForm"    action="{{ route('admin-update-Products',[ 'Pid'=> sha1($product->id)]) }}" method="POST" 
                 
                      enctype="multipart/form-data"  >
                      @csrf

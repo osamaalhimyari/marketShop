@@ -142,6 +142,7 @@
                 cartItemsContainer.innerHTML += row;
 
 
+                
             });
 
         }

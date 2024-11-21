@@ -41,7 +41,7 @@ class SiteMapController extends Controller
         // Add dynamic product URLs
         $products = Product::orderBy('updated_at', 'DESC')->get();
         foreach ($products as $product) {
-            $sitemap->add(Url::create("$domain/product?Pid=" . $product->id)
+            $sitemap->add(Url::create("$domain/product?Pid=" . sha1( $product->id))
                 ->setLastModificationDate($product->updated_at)
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
                 ->setPriority(0.5));

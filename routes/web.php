@@ -112,6 +112,7 @@ Route::get('/run-artisan2', function () {
     return "php artisan  runned successfully!";
 });
 // 
+
 Route::get('/storage', function (Request $request) {
     // Get the 'img' query parameter from the URL
     $filename = $request->query('img');
@@ -136,5 +137,6 @@ Route::get('/storage', function (Request $request) {
     // Return the file with the correct MIME type
     return response($file, 200)->header("Content-Type", $type);
 });
+
 // others
 Route::get('/sitemap.xml', [SiteMapController::class, 'index']);

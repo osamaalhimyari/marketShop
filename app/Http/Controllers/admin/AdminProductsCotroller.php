@@ -28,7 +28,7 @@ class AdminProductsCotroller extends Controller
             $product = new Product();
             return view('admin.Add-Product-Page', compact('product', 'categories' , 'currencies'));
         }else{
-            $product = Product::find($productId);
+            $product =Product::whereRaw('sha1(id) = ?', [$productId])->first() ??new Product();
 
                 return view('admin.Edit-Product-Page', compact('product', 'categories' , 'currencies'));
             }
@@ -37,6 +37,9 @@ class AdminProductsCotroller extends Controller
 
     public function addProduct(Request $request, $id = null)
     {
+
+
+        // dd($request);
         $request->validate([
             'title' => 'required|string|max:255',
             'headline' => 'required|string|max:255',
@@ -45,16 +48,15 @@ class AdminProductsCotroller extends Controller
             'discount' => 'required|integer|min:0|max:100',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
-            'currency_id' => 'required|exists:categories,id',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp,bmp,tiff,heif,heic,raw|max:4048',
+            // 'currency_id' => 'required|exists:categories,id',
+            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp,bmp,tiff,heif,heic,raw|max:4048',
 
         ]);
     
-        
         DB::beginTransaction();
     
         try {
-            $product = $id ? Product::findOrFail($id) : new Product();
+            $product =  new Product();
             $product->title = $request->title;
             $product->headLine = $request->headline;
             $product->description = $request->description;
@@ -62,7 +64,7 @@ class AdminProductsCotroller extends Controller
             $product->discount = $request->discount;
             $product->price = $request->price;
             $product->category_id = $request->category_id;
-            $product->currency_id = $request->currency_id;
+            // $product->currency_id = $request->currency_id;
             $product->published = $request->has('published');
             $product->save();
     
@@ -87,11 +89,12 @@ class AdminProductsCotroller extends Controller
             DB::rollBack();
             Log::error("Failed to save product and images: " . $e->getMessage());
              Alert::failure()->title('error!')->description('Failed to add product. Please try again.')->create();
-            return redirect()->back();
+            return back();
         }
     
         Alert::success()->title('Success!')->description('Product saved successfully')->create();
-            // return redirect()->back();
+            // return back();
+
             return redirect()->route('admin-controll-Products');
     }
     
@@ -119,8 +122,8 @@ class AdminProductsCotroller extends Controller
     public function deleteProduct(Request $request)
     {
         $productId = $request->input('Pid');
-        $product = Product::find($productId);
-
+        $product =Product::whereRaw('sha1(id) = ?', [$productId])->first();
+        
         if ($product) {
             $product->delete();
 
@@ -129,7 +132,7 @@ class AdminProductsCotroller extends Controller
             Alert::failure()->title('Error!')->description('Something went wrong or product not found')->create();
         }
 
-        return redirect()->back(); // Redirect after setting flash messages
+        return back(); // Redirect after setting flash messages
     }
 
 
@@ -142,7 +145,7 @@ class AdminProductsCotroller extends Controller
 
 
         $productId = $request->input('Pid');
-        $product = Product::find($productId);
+        $product = Product::whereRaw('sha1(id)=?', [$productId])->first();
         $product->title = $request->input('title');
         $product->headline = $request->input('headline');
         $product->description = $request->input('description');
@@ -150,7 +153,7 @@ class AdminProductsCotroller extends Controller
         $product->discount = $request->input('discount');
         $product->price = $request->input('price');
         $product->category_id = $request->input('category_id');
-        $product->currency_id = $request->input('currency_id');
+        // $product->currency_id = $request->input('currency_id');
         $product->published = $request->input('published') ? 1 : 0;
 
         // Save images if provided
@@ -166,7 +169,7 @@ class AdminProductsCotroller extends Controller
         
         
         Alert::success()->title('Success!')->description('Product updated successfully!!!')->create();
-        return redirect()->back();
+        return back();
     }
 
     
@@ -186,11 +189,11 @@ class AdminProductsCotroller extends Controller
 
      
             Alert::success()->title('Success!')->description('Image deleted successfully!!!')->create();
-            return redirect()->back();
+            return back();
         }
         Alert::failure()->title('Error!')->description('Something went wrong or Image not found')->create();
 
-        return redirect()->back();
+        return back();
     }
     public function uploadImage(Request $request)
 {

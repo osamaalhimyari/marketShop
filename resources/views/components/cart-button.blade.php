@@ -99,6 +99,7 @@
                 const imageUrl = "{{  url('storage') . '?img='  }}" + (item.image??''); 
                 const itemRow = document.createElement('tr');
 
+                
                 itemRow.innerHTML = `
                     <td class="px-6 py-4 whitespace-nowrap">
                         <a href="/cart">
@@ -107,10 +108,10 @@
                         </a>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <h4><a href="/product?Pid=${item.id}">${item.title}</a></h4>
+                        <h4><a href="/product?Pid={{sha1('${item.id}')}}">${item.title}</a></h4>
                     </td>
                     <td class="px-6 py-4 text-right whitespace-nowrap">
-                        $${(item.price / item.quantity).toFixed(2)}
+                        SAR ${(item.price / item.quantity).toFixed(2)}
                     </td>
                     <td class="px-6 py-4 text-right whitespace-nowrap">
                         ${item.quantity}

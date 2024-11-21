@@ -33,6 +33,7 @@
                             <a href="/product?Pid={{sha1($product->id)}}"
                                 class="text-blue-500 hover:text-blue-700   font-bold">{{ __('show') }}</a>
                         </td>
+                        
                     </tr>
                 @endforeach
             </tbody>

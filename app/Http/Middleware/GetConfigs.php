@@ -12,7 +12,6 @@ class GetConfigs
     {
         // Fetch configuration with currency relation
         $config = Config::with(['currency'])->first();
-
         // Share the configuration data with all views
         View::share('globalConfig', $config);
 

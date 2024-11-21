@@ -39,7 +39,7 @@ class CurrencyController extends Controller
                 ->description('Currency not found.')
                 ->create();
 
-            return redirect()->back();
+            return back();
         }
 
         // Fetch the first Config record
@@ -51,7 +51,7 @@ class CurrencyController extends Controller
                 ->description('No configuration record found.')
                 ->create();
 
-            return redirect()->back();
+            return back();
         }
 
         // Update the currency_id in the Config record
@@ -62,7 +62,7 @@ class CurrencyController extends Controller
             ->description('Currency updated successfully.')
             ->create();
 
-        return redirect()->back();
+        return back();
     }
 
 

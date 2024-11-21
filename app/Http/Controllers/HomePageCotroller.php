@@ -50,7 +50,7 @@ $configs=Config::first();
 
     if ($querySearch != null) {
         $productsQ = $productsQ->where(function ($queryTxt) use ($querySearch) {
-            $queryTxt->where('title', 'like', "%{}%")
+            $queryTxt->where('title', 'like', "%{$querySearch}%")
                      ->orWhere('description', 'like', "%{$querySearch}%");
         });
         $searchTxt=$querySearch;
@@ -75,7 +75,7 @@ $configs=Config::first();
 public function getProduct(Request $request) {
     $productId = $request->input('Pid');
 
-    // Find the product, either by the raw sha1 or direct ID
+    // Find the product, either by the raw sha1 or direct id
     $product = Product::whereRaw('sha1(id) = ? OR id = ?', [$productId, $productId])->first();
 
     if ($product) {

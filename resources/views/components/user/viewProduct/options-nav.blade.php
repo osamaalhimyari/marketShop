@@ -6,7 +6,7 @@
     :title="__('alert')"
     :message="__('itmDeleteMessage')"
     :buttonTxt="__('delete')"
-    :rute="route('admin-delete-Product', ['Pid' => $product->id])"
+    :rute="route('admin-delete-Product', [ 'Pid'=> sha1($product->id)])"
     :confirmtxt="__('delete')"
     :canceltxt="__('cancel')" 
     :id="'modal-' . $product->id"
@@ -19,7 +19,7 @@
     </div>
 </x-dialogs.alert-button >
 <!--    edit-->
-<a href="{{ route('admin-show-Product', 'Pid=' . $product->id) }}" aria-label="{{ __('Edit') }}">
+<a href="{{ route('admin-show-Product', [ 'Pid'=> sha1($product->id)]) }}" aria-label="{{ __('Edit') }}">
     <button class="px-4 py-2 ml-2 mr-2 text-blue-600 dark:text-blue-400 border border-blue-600 dark:border-blue-400 rounded hover:bg-blue-600 hover:text-white transition duration-200">
         {{ __('Edit') }}
     </button>

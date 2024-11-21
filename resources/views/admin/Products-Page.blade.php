@@ -11,7 +11,7 @@
         <div class="flex items-center mb-8">
           
           
-            <a href={{route('admin-show-Product', 'Pid='. null)}} class="flex-shrink-0 mr-4">
+            <a href={{route('admin-show-Product', [ 'Pid'=>null])}} class="flex-shrink-0 mr-4">
                 <button class="btn bg-gray-900 rounded-[5px]  p-2 text-gray-100 hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-white" >
                   <span class=" font-bold">{{__('AddNewProduct')}}</span>
                 </button>
@@ -69,7 +69,7 @@
                                     :title="__('alert')"
                                     :message="__('itmDeleteMessage')"
                                     :buttonTxt="__('delete')"
-                                    :rute="route('admin-delete-Product', ['Pid' => $product->id])"
+                                    :rute="route('admin-delete-Product', [ 'Pid'=> sha1($product->id)])"
                                     :confirmtxt="__('delete')"
                                     :canceltxt="__('cancel')" 
                                     :id="'modal-' . $product->id"
@@ -84,7 +84,7 @@
                                 </td>
                                 
                                 <td class="px-6 py-4">
-                                    <a href="{{ route('admin-show-Product', 'Pid=' . $product->id) }}" aria-label="{{ __('Edit') }}">
+                                    <a href="{{ route('admin-show-Product', [ 'Pid'=> sha1($product->id)]) }}" aria-label="{{ __('Edit') }}">
                                         <button class="px-4 py-2 text-blue-600 dark:text-blue-400 border border-blue-600 dark:border-blue-400 rounded hover:bg-blue-600 hover:text-white transition duration-200">
                                             {{ __('Edit') }}
                                         </button>
