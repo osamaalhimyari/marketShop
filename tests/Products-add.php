@@ -1,103 +1,37 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-        <!-- Styles -->
-        @livewireStyles        
-
-         <script>
-            if (localStorage.getItem('dark-mode') === 'false' || !('dark-mode' in localStorage)) {
-                document.querySelector('html').classList.remove('dark');
-                document.querySelector('html').style.colorScheme = 'light';
-            } else {
-                document.querySelector('html').classList.add('dark');
-                document.querySelector('html').style.colorScheme = 'dark';
-            }
-        </script> 
 
 
-    </head>
-    <body
-        class="font-inter antialiased bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-400"
-        :class="{ 'sidebar-expanded': sidebarExpanded }"
-        x-data="{ sidebarOpen: false, sidebarExpanded: localStorage.getItem('sidebar-expanded') == 'true' }"
-        x-init="$watch('sidebarExpanded', value => localStorage.setItem('sidebar-expanded', value))"    
-    >
 
-        <script>
-            if (localStorage.getItem('sidebar-expanded') == 'true') {
-                document.querySelector('body').classList.add('sidebar-expanded');
-            } else {
-                document.querySelector('body').classList.remove('sidebar-expanded');
-            }
-        </script>
+    {{-- <div class="flex  mt-4">
 
-        <!-- Page wrapper -->
-        <div class="flex h-[100dvh] overflow-hidden">
-
-            <x-app.sidebar :variant="$attributes['sidebarVariant']" :sidebarOpen="'sidebarOpen'" />
-
-            <!-- Content area -->
-            <div class="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden @if($attributes['background']){{ $attributes['background'] }}@endif" x-ref="contentarea">
-
-                <x-app.header :variant="$attributes['headerVariant']" />
-
-                <main class="grow">
-                    {{ $slot }}
-                </main>
-
-            </div>
-
-        </div>
- 
-@livewireScriptConfig
-    </body>
-    
-<script>
-    // Function to set the theme
-    function setTheme(theme) {
-        if (theme === 'dark') {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-        }
-    }
-
-    // On checkbox toggle
-    document.getElementById('light-switch').addEventListener('change', function () {
-        if (this.checked) {
-            setTheme('dark');
-        } else {
-            setTheme('light');
-        }
-    });
-
-    // On page load, set the theme based on localStorage value
-    document.addEventListener('DOMContentLoaded', function () {
-        const storedTheme = localStorage.getItem('theme') || 'light';
-        const lightSwitch = document.getElementById('light-switch');
-
-        // Check the checkbox state based on the stored theme
-        lightSwitch.checked = storedTheme === 'dark';
-
-        // Set the initial theme
-        setTheme(storedTheme);
-    });
-</script>
-</html>
+                <!-- Facebook Icon -->
+                <a href="#" class="text-gray-400 hover:text-white" aria-label="Facebook">
+                    <svg class="w-5 h-5 m-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M22.675 0h-21.35C.596 0 0 .596 0 1.326v21.348C0 23.404.596 24 1.326 24h11.502v-9.294H9.847v-3.622h2.981V8.413c0-2.949 1.799-4.555 4.427-4.555 1.259 0 2.338.093 2.652.136v3.075h-1.82c-1.429 0-1.705.681-1.705 1.676v2.197h3.41l-.445 3.622h-2.965V24h5.81c.73 0 1.326-.596 1.326-1.326V1.326C24 .596 23.404 0 22.675 0z" />
+                    </svg>
+                </a>
+                <!-- Twitter Icon -->
+                <a href="#" class="text-gray-400 hover:text-white" aria-label="Twitter">
+                    <svg class="w-5 h-5 m-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M23.954 4.569c-.885.394-1.83.656-2.825.775 1.014-.611 1.794-1.574 2.163-2.724-.951.555-2.005.959-3.127 1.184-.897-.959-2.178-1.559-3.594-1.559-2.717 0-4.92 2.203-4.92 4.919 0 .39.045.765.126 1.124-4.09-.205-7.719-2.165-10.148-5.144-.426.729-.666 1.571-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.698 4.374 3.946 4.828-.413.111-.848.171-1.296.171-.316 0-.623-.031-.923-.088.631 1.953 2.445 3.376 4.6 3.417-1.684 1.318-3.809 2.105-6.102 2.105-.396 0-.788-.023-1.175-.068 2.179 1.396 4.768 2.209 7.548 2.209 9.055 0 14-7.496 14-13.986 0-.21 0-.42-.015-.63.961-.695 1.8-1.562 2.46-2.548l-.047-.02z" />
+                    </svg>
+                </a>
+                <!-- Instagram Icon -->
+                <a href="#" class="text-gray-400 hover:text-white" aria-label="Instagram">
+                    <svg class="w-5 h-5 m-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.849.07 1.366.062 2.633.341 3.608 1.316.975.975 1.254 2.241 1.316 3.608.058 1.265.069 1.645.069 4.849s-.012 3.584-.07 4.849c-.062 1.366-.341 2.633-1.316 3.608-.975.975-2.241 1.254-3.608 1.316-1.265.058-1.645.069-4.849.069s-3.584-.012-4.849-.07c-1.366-.062-2.633-.341-3.608-1.316-.975-.975-1.254-2.241-1.316-3.608-.058-1.265-.069-1.645-.069-4.849s.012-3.584.07-4.849c.062-1.366.341-2.633 1.316-3.608.975-.975 2.241-1.254 3.608-1.316C8.416 2.175 8.796 2.163 12 2.163M12 0C8.741 0 8.332.013 7.052.072 5.768.13 4.637.428 3.678 1.388c-.96.96-1.258 2.091-1.316 3.374C2.013 6.332 2 6.741 2 12s.013 5.668.072 6.948c.058 1.283.356 2.414 1.316 3.374.96.96 2.091 1.258 3.374 1.316C8.332 21.987 8.741 22 12 22s3.668-.013 4.948-.072c1.283-.058 2.414-.356 3.374-1.316.96-.96 1.258-2.091 1.316-3.374.059-1.28.072-1.688.072-6.948s-.013-5.668-.072-6.948c-.058-1.283-.356-2.414-1.316-3.374C19.362.428 18.231.13 16.948.072 15.668.013 15.259 0 12 0z" />
+                        <path
+                            d="M12 5.838A6.162 6.162 0 0 0 5.838 12 6.162 6.162 0 0 0 12 18.162 6.162 6.162 0 0 0 18.162 12 6.162 6.162 0 0 0 12 5.838zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM18.406 4.594a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z" />
+                    </svg>
+                </a>
+                <!-- WhatsApp Icon -->
+            </div> --}}
+    {{-- <a href="https://t.me/forworkingtime" class="block   text-gray-400 hover:text-blue-500"
+                        aria-label="Telegram" target="_blank" rel="noopener">
+                        <svg class="w-10 h-10 m-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm4.512 8.2l-1.9 9.083c-.144.65-.54.81-1.092.504L9.75 14.45l-1.4-1.063 6.55-4.89c.285-.207.4-.327.31-.363-.092-.038-.212-.007-.452.07L6.7 11.367l-1.354-.422c-.655-.204-.668-.655.137-.97L16.87 6.615c.556-.207 1.037.127.86.982z" />
+                        </svg>
+                    </a> --}}

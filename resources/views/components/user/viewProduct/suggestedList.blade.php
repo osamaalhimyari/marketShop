@@ -1,8 +1,8 @@
 <div class="mt-8  bg-white dark:bg-gray-800  rounded-lg shadow-xl">
     <!-- Section Title -->
-    <div class="flex items-center mb-6">
-        <div class="bg-blue-600 h-1 w-8 mr-3 rounded  ml-3"></div>
-        <span class="text-xl font-bold font-extrabold text-gray-800 dark:text-gray-100">{{ __('suggestion') }}</span>
+    <div class=" items-center mb-6">
+        <div class="bg-blue-600 h-1 w-16 mr-3 rounded  ml-3 mr-3 mb-3"></div>
+        <span class="text-xl font-bold font-extrabold text-gray-800 dark:text-gray-100  ml-3 mr-3 mb-3">{{ __('suggestion') }}</span>
     </div>
 
     <!-- Horizontal Scrollable Container for Product Cards -->

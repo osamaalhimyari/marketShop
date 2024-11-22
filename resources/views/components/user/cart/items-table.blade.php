@@ -9,6 +9,7 @@
                     <th class="px-4 py-2">{{ __('quantity') }}</th>
                     <th class="px-4 py-2">{{ __('total') }}</th>
                     <th class="px-4 py-2"> </th>
+                    <th class="px-4 py-2"> </th>
                 </tr>
             </thead>
             <tbody id="cart-items2">
@@ -18,11 +19,9 @@
                 <tr class="bg-gray-100 dark:bg-gray-700">
                     <td colspan="4" class="text-right px-4 py-2 font-bold">{{ __('totalPrice') }}</td>
                     <td class="px-4 py-2 total-price text-green-800">{{ $globalConfig->currency->sign }} 0.00</td>
-                    <td class="px-4 py-2">
+                    <td colspan="2" class=" px-4 py-2">
                         <a href="{{ route('homePage') }}">
-
                             <button class="w-full bg-blue-600 text-white py-2 rounded-lg mt-6">
-
                                 {{ __('continueShopping') }}
                             </button>
                         </a>
