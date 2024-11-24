@@ -17,7 +17,7 @@
                    class="w-16 h-10 text-center bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300 font-medium border border-gray-300 dark:border-gray-600" 
                    min="1" max="{{ $product->quantity }}" 
                    disabled oninput="this.value = this.value.replace(/[^0-9]/g, '0');" />
-            
+          
             <!-- Increase Button -->
             <button type="button" 
                     class="plus w-10 h-10 bg-gray-800 dark:bg-gray-200 text-gray-700 dark:text-gray-900 rounded-l-lg flex items-center justify-center hover:bg-gray-300 transition-all" 

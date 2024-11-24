@@ -7,7 +7,9 @@ use App\Models\Config;
 use Illuminate\Http\Request;
 use App\Models\Currency;
 use Mayank\Alert\Alert;
-
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\View; // To share data with all views
+use Illuminate\Support\Facades\Log;
 class CurrencyController extends Controller
 {
 
@@ -23,9 +25,10 @@ class CurrencyController extends Controller
 
         return view('admin.Currencies-page', compact('currencies', 'editCurrency'));
     }
-    public function setDefault(Request $request)
-    {
-        // Validate the incoming request to ensure 'edit' exists and is numeric
+public function setDefault(Request $request)
+{
+    try {
+        // Validate the incoming request
         $request->validate([
             'edit' => 'required|integer|exists:currencies,id',
         ]);
@@ -57,13 +60,39 @@ class CurrencyController extends Controller
         // Update the currency_id in the Config record
         $config->update(['currency_id' => $editCurrency->id]);
 
+        // Clear and repopulate the globalConfig cache
+        Cache::forget('globalConfig');
+
+        $updatedConfig = Cache::remember('globalConfig', 3600, function () {
+            return Config::with(['currency'])->first();
+        });
+
+        if (!$updatedConfig) {
+            throw new \Exception("Failed to cache or fetch the updated configuration.");
+        }
+
+        // Share the updated config with all views
+        View::share('globalConfig', $updatedConfig);
+
         Alert::success()
             ->title('Success!')
             ->description('Currency updated successfully.')
             ->create();
 
         return back();
+
+    } catch (\Throwable $e) {
+        // Log the error for debugging
+        log::error('Error in setDefault function: ' . $e->getMessage());
+
+        Alert::failure()
+            ->title('Error!')
+            ->description('An unexpected error occurred. Please try again later.')
+            ->create();
+
+        return back();
     }
+}
 
 
 

@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Currency extends Model
 {
- 
+
     use HasFactory;
 
 
-    protected $fillable = ['name','code','sign'];
+    protected $fillable = ['name', 'code', 'sign'];
 
     public function products()
     {
@@ -24,7 +24,4 @@ class Currency extends Model
     {
         return $this->hasMany(Config::class);
     }
-
-
-   
 }
